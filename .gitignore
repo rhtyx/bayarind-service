@@ -1,6 +1,3 @@
-*.pri
-*.pub
-
 .DS_Store
 
 .idea/**
