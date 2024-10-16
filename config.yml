@@ -1,0 +1,17 @@
+application:
+  name: bayarind-service
+  port: 8010
+  log-level: DEBUG
+  refresh-token-duration: 24h
+  access-token-duration: 5m
+postgres:
+  host: service-db
+  port: 5432
+  database: bayarind-service
+  username: user
+  password: password
+  sslmode: disable
+  max-idle-conns: 3
+  max-open-conns: 5
+  max-conn-lifetime: 3600000
+  ping-interval: 5000

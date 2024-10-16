@@ -1,0 +1,39 @@
+services:
+  service-db:
+    container_name: bayarind-service-db
+    image: postgres
+    environment:
+      POSTGRES_DB: bayarind-service
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - bayarind-service:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 3s
+    networks:
+      - bayarind
+  app:
+    container_name: bayarind-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      bash -c "./main migrate --direction=up && ./main server"
+    ports:
+      - "8010:8010"
+    depends_on:
+      service-db:
+        condition: service_healthy
+    networks:
+      - bayarind
+
+volumes:
+  bayarind-service:
+
+networks:
+  bayarind:
+    driver: bridge
